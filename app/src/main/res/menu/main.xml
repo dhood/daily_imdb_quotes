@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <item android:id="@+id/action_reset"
+        android:title="Reset"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_get_quotes"
+        android:title="@+string/action_get_quotes"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_settings"
+        android:title="@+string/action_settings"
+        app:showAsAction="never" />
+</menu>
