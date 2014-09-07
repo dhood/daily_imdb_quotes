@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Happy Fathers Day</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+    <string name="action_settings">Settings</string>
+    <string name="action_get_quotes">Retry quotes</string>
+
+    <string name="index_of_quotes_for_current_title">index</string>
+    <string name="number_of_quotes_for_current_title">number_quotes</string>
+    <string name="current_titleId">titleId</string>
+    <string name="current_titleText_short">titleText_short</string>
+
+    <string name="pref_hours_between_quotes_label">Hours between quotes (>=1.0)</string>
+    <string name="pref_hours_between_quotes_key">hours_between_quotes</string>
+    <string name="pref_hours_between_quotes_default">72</string>
+
+    <string name="pref_titleText_label">Movie/series title to show quotes from</string>
+    <string name="pref_titleText_key">titleText_withYear</string>
+    <string name="pref_titleText_default">Office Space</string>
+</resources>
