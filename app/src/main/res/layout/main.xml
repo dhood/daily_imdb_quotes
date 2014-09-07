@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:fitsSystemWindows="true" android:alwaysDrawnWithCache="false">
+
+    <ImageView
+        android:layout_marginTop="100dip"
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/milton" />
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:descendantFocusability="beforeDescendants"
+    android:orientation="vertical"
+    android:id="@+id/mainLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:layout_gravity="center" >
+
+        <TextView
+        android:id="@+id/timeTillNextQuote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:layout_gravity="center"
+            android:background="@drawable/abc_ab_bottom_solid_light_holo">
+    </TextView>
+
+
+
+
+    <Button
+        android:id="@+id/getNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Get quote now!"
+        android:layout_gravity="center"
+        android:textSize="30sp">
+    </Button>
+
+        </FrameLayout>
+<!--
+    <Button
+        android:id="@+id/descheduleAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop sending me quotes."
+        android:layout_gravity="center_horizontal">
+    </Button>
+
+
+-->
+</LinearLayout>
+    </RelativeLayout>
