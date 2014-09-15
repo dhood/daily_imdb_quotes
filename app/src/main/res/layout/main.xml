@@ -12,7 +12,8 @@
         android:scaleType="center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/milton" />
+        android:src="@drawable/milton"
+        android:paddingBottom="20dp"/>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
