@@ -96,6 +96,7 @@ public class MainActivity extends Activity {
         if (!currVal_titleText.equals(prevVal_titleText)) {
             prevVal_titleText = currVal_titleText;
             Log.d(LOG_TAG, "Getting new quotes for title since it changed");
+            MyAlarmManager.cancelAlarm(this); //allow new quotes straight away
             getQuotes();
         }
     }
