@@ -76,7 +76,13 @@ public class Utility {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         String ret = settings.getString(context.getString(R.string.pref_hours_between_quotes_key),
                 context.getString(R.string.pref_hours_between_quotes_default));
-        return Double.parseDouble(ret);
+        try {
+            return Double.parseDouble(ret);
+        }
+        catch(Throwable t) {
+            t.printStackTrace();
+            return -1;
+        }
     }
 
     public static void setHoursBetweenQuotes(Context context, double numHours) {

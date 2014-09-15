@@ -80,6 +80,11 @@ public class MainActivity extends Activity {
     public void checkIfPreferencesChanged() {
         // number of hours between quotes
         double currVal_hoursBetweenQuotes = Utility.getHoursBetweenQuotes(this);
+        if(currVal_hoursBetweenQuotes == -1){ //user didn't input a number
+            currVal_hoursBetweenQuotes = prevVal_hoursBetweenQuotes;
+            Utility.setHoursBetweenQuotes(this, currVal_hoursBetweenQuotes);
+        }
+
         if (currVal_hoursBetweenQuotes != prevVal_hoursBetweenQuotes) {
             prevVal_hoursBetweenQuotes = currVal_hoursBetweenQuotes;
             if (currVal_hoursBetweenQuotes < 1.0) {
@@ -249,7 +254,7 @@ public class MainActivity extends Activity {
         if(mCountDownTimer != null) {
             mCountDownTimer.cancel(); //cancel previous timer
         }
-        mTextView.setText("Fetching quotes...");
+        mTextView.setText("Getting title ID...");
 
         String currentTitleText = Utility.getCurrentTitleText(this);
         GetTitleIdFromTitleText getTitleIdFromTitleText = new GetTitleIdFromTitleText(this);
