@@ -18,8 +18,10 @@
             </intent-filter>
         </activity>
 
+        <!-- Notification will listen for when orientation changes so it can be dealt with manually -->
         <activity
             android:name=".NotificationReceiverActivity"
+            android:configChanges="orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

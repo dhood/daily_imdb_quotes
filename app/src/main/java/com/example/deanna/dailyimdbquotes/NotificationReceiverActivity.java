@@ -2,6 +2,7 @@ package com.example.deanna.dailyimdbquotes;
 
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -11,6 +12,13 @@ public class NotificationReceiverActivity extends Activity {
     private static final String LOG_TAG = NotificationReceiverActivity.class.getName();
     private TextView mTextView;
     private ImageView mImageView;
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //we don't actually want to change anything if the screen gets rotated, but this is
+        //necessary to prevent the activity from being restarted (and showing a new quote) when rotated
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
