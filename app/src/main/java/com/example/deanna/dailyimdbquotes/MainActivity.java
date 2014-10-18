@@ -1,9 +1,12 @@
 package com.example.deanna.dailyimdbquotes;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -16,6 +19,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 
 public class MainActivity extends Activity {
@@ -62,7 +70,17 @@ public class MainActivity extends Activity {
 
             MyAlarmManager.rescheduleAlarm(this);
             displayTimeTillNextAlarm();
-            getImageForTitleId();
+
+            // set the title's image as the background -- why is this necessary again? shouldn't it be persistent?
+            Bitmap primaryImage = getImageFromInternalStorage(currentTitleId);
+            if(primaryImage == null){
+                getImageForTitleId();
+            }
+            else {
+                Log.d(LOG_TAG,"Retrived image from internal storage");
+                mImageView.setImageDrawable(new BitmapDrawable(primaryImage));
+                mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            }
         }
     }
 
@@ -344,9 +362,12 @@ public class MainActivity extends Activity {
                 mImageView.setScaleType(ImageView.ScaleType.CENTER);
             }
             else{
-                // set the result as the background
+                //set the result as the background
                 mImageView.setImageDrawable(new BitmapDrawable(primaryImage));
                 mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+                //save the image for next time the app launches
+                saveImageToInternalStorage(primaryImage, titleId);
             }
         }
         else{
@@ -354,6 +375,43 @@ public class MainActivity extends Activity {
         }
     }
 
+    private String saveImageToInternalStorage(Bitmap bitmapImage, String imageTitle){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File myPath = new File(directory, imageTitle + ".jpg");
+
+        FileOutputStream fos;
+        try {
+
+            fos = new FileOutputStream(myPath);
+
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return directory.getAbsolutePath();
+    }
+
+    private Bitmap getImageFromInternalStorage(String imageTitle){
+
+        try {
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            File f=new File(directory, imageTitle + ".jpg");
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
 /*
     public void onPreferencesChanged(String key){
