@@ -64,6 +64,8 @@ public class MainActivity extends Activity {
             getQuotes();
         }else{
             if(Utility.getCurrentTitleText(this).equalsIgnoreCase(getString(R.string.pref_titleText_default))){ //special case for when Office Space
+                findViewById(R.id.imageLoading).setVisibility(View.INVISIBLE);
+                mImageView.setVisibility(View.VISIBLE);
                 mImageView.setImageResource(R.drawable.milton);
                 mImageView.setScaleType(ImageView.ScaleType.CENTER);
             }
@@ -78,8 +80,11 @@ public class MainActivity extends Activity {
             }
             else {
                 Log.d(LOG_TAG,"Retrived image from internal storage");
+                findViewById(R.id.imageLoading).setVisibility(View.INVISIBLE);
+                mImageView.setVisibility(View.VISIBLE);
                 mImageView.setImageDrawable(new BitmapDrawable(primaryImage));
                 mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
             }
         }
     }
@@ -120,6 +125,9 @@ public class MainActivity extends Activity {
             prevVal_titleText = currVal_titleText;
             Log.d(LOG_TAG, "Getting new quotes for title since it changed");
             MyAlarmManager.cancelAlarm(this); //allow new quotes straight away
+
+            mImageView.setVisibility(View.INVISIBLE); //remove any previous title's image
+            findViewById(R.id.imageLoading).setVisibility(View.VISIBLE);
             getQuotes();
         }
     }
@@ -349,6 +357,9 @@ public class MainActivity extends Activity {
     }
 
     public void getImageForTitleId(){
+        mImageView.setVisibility(View.INVISIBLE);
+        findViewById(R.id.imageLoading).setVisibility(View.VISIBLE);
+
         GetPrimaryImageForTitleId getPrimaryImageForTitleId = new GetPrimaryImageForTitleId(this);
         getPrimaryImageForTitleId.execute(Utility.getCurrentTitleId(this));
     }
@@ -358,11 +369,15 @@ public class MainActivity extends Activity {
             Log.d(LOG_TAG,"Got primary image!");
 
             if(titleId.equalsIgnoreCase("tt0151804")){ //special case for when Office Space
+                findViewById(R.id.imageLoading).setVisibility(View.INVISIBLE);
+                mImageView.setVisibility(View.VISIBLE);
                 mImageView.setImageResource(R.drawable.milton);
                 mImageView.setScaleType(ImageView.ScaleType.CENTER);
             }
             else{
                 //set the result as the background
+                findViewById(R.id.imageLoading).setVisibility(View.INVISIBLE);
+                mImageView.setVisibility(View.VISIBLE);
                 mImageView.setImageDrawable(new BitmapDrawable(primaryImage));
                 mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
