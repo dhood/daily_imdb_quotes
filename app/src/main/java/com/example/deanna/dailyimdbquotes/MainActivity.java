@@ -74,18 +74,8 @@ public class MainActivity extends Activity {
             displayTimeTillNextAlarm();
 
             // set the title's image as the background -- why is this necessary again? shouldn't it be persistent?
-            Bitmap primaryImage = getImageFromInternalStorage(currentTitleId);
-            if(primaryImage == null){
-                getImageForTitleId();
-            }
-            else {
-                Log.d(LOG_TAG,"Retrived image from internal storage");
-                findViewById(R.id.imageLoading).setVisibility(View.INVISIBLE);
-                mImageView.setVisibility(View.VISIBLE);
-                mImageView.setImageDrawable(new BitmapDrawable(primaryImage));
-                mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            setTitleImageAsBackground(currentTitleId);
 
-            }
         }
     }
 
@@ -125,6 +115,8 @@ public class MainActivity extends Activity {
             prevVal_titleText = currVal_titleText;
             Log.d(LOG_TAG, "Getting new quotes for title since it changed");
             MyAlarmManager.cancelAlarm(this); //allow new quotes straight away
+            // todo: shouldn't allow quotes straight away if it's the same movie ID
+
 
             mImageView.setVisibility(View.INVISIBLE); //remove any previous title's image
             findViewById(R.id.imageLoading).setVisibility(View.VISIBLE);
@@ -273,6 +265,7 @@ public class MainActivity extends Activity {
     public void displayNoQuotesAvailable(){
         makeTextBoxVisible();
         mTextView.setText("No quotes are available for " + Utility.getCurrentTitleText(this));
+        findViewById(R.id.imageLoading).setVisibility(View.INVISIBLE);
     }
 
     public void getQuotes(){
@@ -344,6 +337,7 @@ public class MainActivity extends Activity {
             else{
                 //this is already the current movie....
                 onQuoteGettingFinished(true, titleId, Utility.getNumberOfQuotesForCurrentTitle(this));
+                setTitleImageAsBackground(titleId);
 
             }
         }
@@ -426,6 +420,22 @@ public class MainActivity extends Activity {
             return null;
         }
 
+    }
+
+    private boolean setTitleImageAsBackground(String titleId) {
+        boolean imageWasAlreadyRetrieved = false;
+        Bitmap primaryImage = getImageFromInternalStorage(titleId);
+        if (primaryImage == null) {
+            getImageForTitleId();
+        } else {
+            Log.d(LOG_TAG, "Retrived image from internal storage");
+            findViewById(R.id.imageLoading).setVisibility(View.INVISIBLE);
+            mImageView.setVisibility(View.VISIBLE);
+            mImageView.setImageDrawable(new BitmapDrawable(primaryImage));
+            mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageWasAlreadyRetrieved = true;
+        }
+        return imageWasAlreadyRetrieved;
     }
 
 /*
