@@ -36,6 +36,8 @@ public class MainActivity extends Activity {
     double prevVal_hoursBetweenQuotes;
     String prevVal_titleText;
 
+    private static boolean ENFORCE_MIN_TIME_BETWEEN_QUOTES = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(LOG_TAG,"onCreate called");
@@ -100,7 +102,7 @@ public class MainActivity extends Activity {
 
         if (currVal_hoursBetweenQuotes != prevVal_hoursBetweenQuotes) {
             prevVal_hoursBetweenQuotes = currVal_hoursBetweenQuotes;
-            if (currVal_hoursBetweenQuotes < 1.0) {
+            if (ENFORCE_MIN_TIME_BETWEEN_QUOTES && currVal_hoursBetweenQuotes < 1.0) {
                 Utility.setHoursBetweenQuotes(this, 1.0);
             }
             Log.d(LOG_TAG, "Updating alarm for hours_between_quotes change");
