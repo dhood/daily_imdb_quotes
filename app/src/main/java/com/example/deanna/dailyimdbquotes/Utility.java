@@ -132,7 +132,7 @@ public class Utility {
 
     public static void createNotificationOfNextQuote(Context context) {
         int index = Utility.getIndexOfQuotesForCurrentTitle(context);
-        Bundle extras = createNotificationForQuoteIndex(context, index);
+        Bundle extras = createExtrasForQuoteIndex(context, index);
         extras.putBoolean("ScheduleAlarmAfterDisplaying",true);
         MyAlarmManager.createNotification(context, extras, index);
     }
@@ -140,13 +140,13 @@ public class Utility {
     public static void launchPrevQuote(Context context) {
         int index = Utility.getIndexOfQuotesForCurrentTitle(context);
         if (index > 0) {
-            Bundle extras = createNotificationForQuoteIndex(context, index - 1);
+            Bundle extras = createExtrasForQuoteIndex(context, index - 1);
             extras.putBoolean("ScheduleAlarmAfterDisplaying", false);
-            launchNotification(context, extras);
+            launchQuote(context, extras);
         }
     }
 
-    public static Bundle createNotificationForQuoteIndex(Context context, int index){
+    public static Bundle createExtrasForQuoteIndex(Context context, int index){
         Bundle extras = new Bundle();
 
         if(Utility.getNumberOfQuotesForCurrentTitle(context) > 0) {
@@ -180,7 +180,7 @@ public class Utility {
         return extras;
     }
 
-    public static void notificationShown(Context context, Bundle extras) {
+    public static void quoteShown(Context context, Bundle extras) {
         if (extras != null) {
             if (extras.containsKey("Index")) {
                 int indexOfNotification = extras.getInt("Index");
@@ -206,11 +206,11 @@ public class Utility {
     }
 
 
-    private static void launchNotification(Context context, Bundle extras) {
+    private static void launchQuote(Context context, Bundle extras) {
 
         // Prepare intent which is triggered if the
         // notification is selected
-        Intent intent = new Intent(context, NotificationReceiverActivity.class);
+        Intent intent = new Intent(context, QuoteDisplayActivity.class);
         intent.putExtras(extras); // pass along the extras
         context.startActivity(intent);
     }

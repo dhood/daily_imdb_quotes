@@ -124,7 +124,7 @@ public class MyAlarmManager {
 
         // Prepare intent which is triggered if the
         // notification is selected
-        Intent intent = new Intent(context, NotificationReceiverActivity.class);
+        Intent intent = new Intent(context, QuoteDisplayActivity.class);
         intent.putExtras(extras); // pass along the extras
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

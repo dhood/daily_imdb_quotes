@@ -20,7 +20,7 @@
 
         <!-- Notification will listen for when orientation changes so it can be dealt with manually -->
         <activity
-            android:name=".NotificationReceiverActivity"
+            android:name=".QuoteDisplayActivity"
             android:configChanges="orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:parentActivityName=".MainActivity">
             <meta-data

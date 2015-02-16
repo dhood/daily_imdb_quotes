@@ -8,8 +8,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NotificationReceiverActivity extends Activity {
-    private static final String LOG_TAG = NotificationReceiverActivity.class.getName();
+public class QuoteDisplayActivity extends Activity {
+    private static final String LOG_TAG = QuoteDisplayActivity.class.getName();
     private TextView mTextView;
     private ImageView mImageView;
 
@@ -42,7 +42,7 @@ public class NotificationReceiverActivity extends Activity {
             }
         }
 
-        Utility.notificationShown(this, extras);
+        Utility.quoteShown(this, extras);
 
 
     }
