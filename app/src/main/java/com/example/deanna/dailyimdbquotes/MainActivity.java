@@ -223,6 +223,14 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem registrar = menu.findItem(R.id.action_prev_quote);
+        int currentQuoteIndex = Utility.getIndexOfQuotesForCurrentTitle(this);
+        registrar.setVisible(currentQuoteIndex>0); //only show if a previous quote exists
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -240,6 +248,9 @@ public class MainActivity extends Activity {
             startActivity(new Intent(this, SettingsActivity.class));
             //registerPreferenceListener();
             return true;
+        }
+        if(id == R.id.action_prev_quote){
+            Utility.launchPrevQuote(this);
         }
         return super.onOptionsItemSelected(item);
     }

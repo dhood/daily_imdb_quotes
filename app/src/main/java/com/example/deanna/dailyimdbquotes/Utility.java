@@ -1,6 +1,7 @@
 package com.example.deanna.dailyimdbquotes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -129,11 +130,27 @@ public class Utility {
         return new String[] {quote, quoteId};
     }
 
-    public static void createNotificationOfNextQuote(Context context){
-        if(Utility.getNumberOfQuotesForCurrentTitle(context) > 0) {
-            Bundle extras = new Bundle();
+    public static void createNotificationOfNextQuote(Context context) {
+        int index = Utility.getIndexOfQuotesForCurrentTitle(context);
+        Bundle extras = createNotificationForQuoteIndex(context, index);
+        extras.putBoolean("ScheduleAlarmAfterDisplaying",true);
+        MyAlarmManager.createNotification(context, extras, index);
+    }
 
-            int index = Utility.getIndexOfQuotesForCurrentTitle(context);
+    public static void launchPrevQuote(Context context) {
+        int index = Utility.getIndexOfQuotesForCurrentTitle(context);
+        if (index > 0) {
+            Bundle extras = createNotificationForQuoteIndex(context, index - 1);
+            extras.putBoolean("ScheduleAlarmAfterDisplaying", false);
+            launchNotification(context, extras);
+        }
+    }
+
+    public static Bundle createNotificationForQuoteIndex(Context context, int index){
+        Bundle extras = new Bundle();
+
+        if(Utility.getNumberOfQuotesForCurrentTitle(context) > 0) {
+
             String titleId = Utility.getCurrentTitleId(context);
 
             if (index >= Utility.getNumberOfQuotesForCurrentTitle(context)) {
@@ -154,13 +171,13 @@ public class Utility {
             if (quoteId != null) {
                 extras.putString("ImageToDisplay", quoteId);
             }
-            MyAlarmManager.createNotification(context, extras, index);
+
 
         } else {
             Log.e(context.getClass().getName(), "No quotes are available for this title - not rescheduling alarm.");
         }
 
-
+        return extras;
     }
 
     public static void notificationShown(Context context, Bundle extras) {
@@ -171,7 +188,13 @@ public class Utility {
                 if (currentIndex == indexOfNotification) {
                     currentIndex++;
                     Utility.setIndexOfQuotesForCurrentTitle(context, currentIndex);
+                    if (MainActivity.instance != null) { // enable the previous quote menu option if it wasn't already
+                        MainActivity.instance.invalidateOptionsMenu();
+                    }
+                }
 
+            if (extras.containsKey("ScheduleAlarmAfterDisplaying")
+                    && extras.getBoolean("ScheduleAlarmAfterDisplaying")){
                     MyAlarmManager.scheduleNewAlarm(context);
                     if (MainActivity.instance != null) {
                         MainActivity.instance.displayTimeTillNextAlarm();
@@ -182,6 +205,15 @@ public class Utility {
         }
     }
 
+
+    private static void launchNotification(Context context, Bundle extras) {
+
+        // Prepare intent which is triggered if the
+        // notification is selected
+        Intent intent = new Intent(context, NotificationReceiverActivity.class);
+        intent.putExtras(extras); // pass along the extras
+        context.startActivity(intent);
+    }
 
 }
 
