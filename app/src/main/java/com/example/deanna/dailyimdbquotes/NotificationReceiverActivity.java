@@ -28,44 +28,25 @@ public class NotificationReceiverActivity extends Activity {
         mTextView = (TextView) findViewById(R.id.textView1);
         mImageView = (ImageView) findViewById(R.id.imageView);
 
-        if(Utility.getNumberOfQuotesForCurrentTitle(this) > 0) {
-            int index = Utility.getIndexOfQuotesForCurrentTitle(this);
-            String titleId = Utility.getCurrentTitleId(this);
-
-            if (index >= Utility.getNumberOfQuotesForCurrentTitle(this)) {
-                Log.d(LOG_TAG, "Requested index is greater than the number of quotes available");
-                index = 0;
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            if (extras.containsKey("TextToDisplay")) {
+                String textToDisplay = extras.getString("TextToDisplay");
+                mTextView.setText(textToDisplay);
+                Log.d(LOG_TAG, "Received quote " + textToDisplay);
             }
-
-            Log.d(LOG_TAG, "Getting quote number " + Integer.toString(index) + " for title " + titleId);
-            String[] quoteInfo = Utility.getQuoteAtIndexForTitle(this, index, titleId);
-
-            String quote = quoteInfo[0];
-            String quoteId = quoteInfo[1];
-
-            if (quote != null) {
-                mTextView.setText(quote);
-                index++;
-                Utility.setIndexOfQuotesForCurrentTitle(this, index);
-            }
-            if (quoteId != null) {
-                int resID = getResources().getIdentifier(quoteId, "drawable", getPackageName());
+            if (extras.containsKey("ImageToDisplay")) {
+                String imageToDisplay = extras.getString("ImageToDisplay");
+                int resID = getResources().getIdentifier(imageToDisplay, "drawable", getPackageName());
                 mImageView.setImageResource(resID);
             }
-
+        }
             MyAlarmManager.scheduleNewAlarm(this);
             if (MainActivity.instance != null) {
                 MainActivity.instance.displayTimeTillNextAlarm();
             }
             Log.d(LOG_TAG, "Scheduled new alarm");
-        }
-        else{
-            Log.e(LOG_TAG, "No quotes are available for this title - not rescheduling alarm.");
-            mTextView.setText("No quotes are available for this title, sorry.");
-            if (MainActivity.instance != null) {
-                MainActivity.instance.displayNoQuotesAvailable();
-            }
-        }
+
     }
 
 }

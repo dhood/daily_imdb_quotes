@@ -16,8 +16,7 @@ public class AlarmReceiver extends BroadcastReceiver
     public void onReceive(Context context, Intent intent)
     {
 
-        MyAlarmManager.createNotification(context);
-
+        Utility.createNotificationOfNextQuote(context);
 
         if(MainActivity.instance != null){
             MainActivity.instance.displayNotificationWaiting();

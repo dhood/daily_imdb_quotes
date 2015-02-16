@@ -133,7 +133,7 @@ public class MainActivity extends Activity {
     };
 
     private void startQuotes(){
-        MyAlarmManager.createNotification(getBaseContext());
+        Utility.createNotificationOfNextQuote(this);
         displayNotificationWaiting();
         makeTextBoxVisible();
     }

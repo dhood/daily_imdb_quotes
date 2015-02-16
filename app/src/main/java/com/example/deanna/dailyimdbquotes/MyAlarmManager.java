@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.format.DateUtils;
@@ -119,12 +120,15 @@ public class MyAlarmManager {
         Log.d(LOG_TAG, "Removing alarm time from preferences");
     }
 
-    public static void createNotification(Context context) {
+    public static void createNotification(Context context, Bundle extras) {
 
         // Prepare intent which is triggered if the
         // notification is selected
         Intent intent = new Intent(context, NotificationReceiverActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        intent.putExtras(extras); // pass along the extras
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         // Build notification
         Notification noti = new NotificationCompat.Builder(context)

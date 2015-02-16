@@ -3,6 +3,7 @@ package com.example.deanna.dailyimdbquotes;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -127,6 +128,43 @@ public class Utility {
         quoteCursor.close();
         return new String[] {quote, quoteId};
     }
+
+    public static void createNotificationOfNextQuote(Context context){
+        if(Utility.getNumberOfQuotesForCurrentTitle(context) > 0) {
+            Bundle extras = new Bundle();
+
+            int index = Utility.getIndexOfQuotesForCurrentTitle(context);
+            String titleId = Utility.getCurrentTitleId(context);
+
+            if (index >= Utility.getNumberOfQuotesForCurrentTitle(context)) {
+                Log.d(context.getClass().getName(), "Requested index is greater than the number of quotes available");
+                index = 0;
+            }
+
+            Log.d(context.getClass().getName(), "Getting quote number " + Integer.toString(index) + " for title " + titleId);
+            String[] quoteInfo = Utility.getQuoteAtIndexForTitle(context, index, titleId);
+
+            String quote = quoteInfo[0];
+            String quoteId = quoteInfo[1];
+
+            if (quote != null) {
+                extras.putString("TextToDisplay", quote);
+                Log.d(context.getClass().getName(), "Quote: " + quote);
+                index++;
+                Utility.setIndexOfQuotesForCurrentTitle(context, index);
+            }
+            if (quoteId != null) {
+                extras.putString("ImageToDisplay", quoteId);
+            }
+            MyAlarmManager.createNotification(context, extras);
+
+        } else {
+            Log.e(context.getClass().getName(), "No quotes are available for this title - not rescheduling alarm.");
+        }
+
+
+    }
+
 
 }
 
