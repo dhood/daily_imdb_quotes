@@ -120,15 +120,15 @@ public class MyAlarmManager {
         Log.d(LOG_TAG, "Removing alarm time from preferences");
     }
 
-    public static void createNotification(Context context, Bundle extras) {
+    public static void createNotification(Context context, Bundle extras, int notificationID) {
 
         // Prepare intent which is triggered if the
         // notification is selected
         Intent intent = new Intent(context, NotificationReceiverActivity.class);
         intent.putExtras(extras); // pass along the extras
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        PendingIntent pIntent = PendingIntent.getActivity(context, notificationID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         // Build notification
         Notification noti = new NotificationCompat.Builder(context)

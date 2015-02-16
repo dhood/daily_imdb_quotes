@@ -41,6 +41,8 @@ public class NotificationReceiverActivity extends Activity {
                 mImageView.setImageResource(resID);
             }
         }
+
+        Utility.notificationShown(this, extras);
             MyAlarmManager.scheduleNewAlarm(this);
             if (MainActivity.instance != null) {
                 MainActivity.instance.displayTimeTillNextAlarm();

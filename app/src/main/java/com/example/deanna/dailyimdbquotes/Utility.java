@@ -146,23 +146,34 @@ public class Utility {
 
             String quote = quoteInfo[0];
             String quoteId = quoteInfo[1];
-
+            extras.putInt("Index", index);
             if (quote != null) {
                 extras.putString("TextToDisplay", quote);
                 Log.d(context.getClass().getName(), "Quote: " + quote);
-                index++;
-                Utility.setIndexOfQuotesForCurrentTitle(context, index);
             }
             if (quoteId != null) {
                 extras.putString("ImageToDisplay", quoteId);
             }
-            MyAlarmManager.createNotification(context, extras);
+            MyAlarmManager.createNotification(context, extras, index);
 
         } else {
             Log.e(context.getClass().getName(), "No quotes are available for this title - not rescheduling alarm.");
         }
 
 
+    }
+
+    public static void notificationShown(Context context, Bundle extras) {
+        if (extras != null) {
+            if (extras.containsKey("Index")) {
+                int indexOfNotification = extras.getInt("Index");
+                int currentIndex = Utility.getIndexOfQuotesForCurrentTitle(context);
+                if (currentIndex == indexOfNotification) {
+                    currentIndex++;
+                    Utility.setIndexOfQuotesForCurrentTitle(context, currentIndex);
+                }
+            }
+        }
     }
 
 
