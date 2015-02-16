@@ -43,11 +43,7 @@ public class NotificationReceiverActivity extends Activity {
         }
 
         Utility.notificationShown(this, extras);
-            MyAlarmManager.scheduleNewAlarm(this);
-            if (MainActivity.instance != null) {
-                MainActivity.instance.displayTimeTillNextAlarm();
-            }
-            Log.d(LOG_TAG, "Scheduled new alarm");
+
 
     }
 

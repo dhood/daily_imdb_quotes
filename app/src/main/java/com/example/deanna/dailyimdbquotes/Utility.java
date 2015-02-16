@@ -171,6 +171,12 @@ public class Utility {
                 if (currentIndex == indexOfNotification) {
                     currentIndex++;
                     Utility.setIndexOfQuotesForCurrentTitle(context, currentIndex);
+
+                    MyAlarmManager.scheduleNewAlarm(context);
+                    if (MainActivity.instance != null) {
+                        MainActivity.instance.displayTimeTillNextAlarm();
+                    }
+                    Log.d(context.getClass().getName(), "Scheduled new alarm");
                 }
             }
         }
