@@ -147,6 +147,24 @@ public class Utility {
         }
     }
 
+    public static void launchCurrentQuote(Context context) {
+        int index = Utility.getIndexOfQuotesForCurrentTitle(context);
+        if (index >= 0) {
+            Bundle extras = createExtrasForQuoteIndex(context, index);
+            extras.putBoolean("ScheduleAlarmAfterDisplaying", false);
+            launchQuote(context, extras);
+        }
+    }
+
+    public static void launchCurrentQuote(Context context, boolean scheduleAlarmAfter){
+        int index = Utility.getIndexOfQuotesForCurrentTitle(context);
+        if (index >= 0) {
+            Bundle extras = createExtrasForQuoteIndex(context, index);
+            extras.putBoolean("ScheduleAlarmAfterDisplaying", scheduleAlarmAfter);
+            launchQuote(context, extras);
+        }
+    }
+
     public static Bundle createExtrasForQuoteIndex(Context context, int index){
         Bundle extras = new Bundle();
 

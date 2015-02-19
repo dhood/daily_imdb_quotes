@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
         mImageView = (ImageView) findViewById(R.id.imageView1);
 
         mNewQuoteButton = (Button)findViewById(R.id.getNotification);
-        mNewQuoteButton.setOnClickListener(mCreateNotificationListener);
+        mNewQuoteButton.setOnClickListener(mShowQuoteListener);
 
         mNewQuoteButton.setVisibility(View.INVISIBLE);
         mTextView.setVisibility(View.INVISIBLE);
@@ -119,23 +119,21 @@ public class MainActivity extends Activity {
             MyAlarmManager.cancelAlarm(this); //allow new quotes straight away
             // todo: shouldn't allow quotes straight away if it's the same movie ID
 
-
             mImageView.setVisibility(View.INVISIBLE); //remove any previous title's image
             findViewById(R.id.imageLoading).setVisibility(View.VISIBLE);
             getQuotes();
         }
     }
 
-    private View.OnClickListener mCreateNotificationListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            startQuotes();
+    private View.OnClickListener mShowQuoteListener = new View.OnClickListener() {
+        public void onClick(View v){
+            launchQuote();
         }
     };
 
-    private void startQuotes(){
-        Utility.createNotificationOfNextQuote(this);
-        displayNotificationWaiting();
+    private void launchQuote(){
         makeTextBoxVisible();
+        Utility.launchCurrentQuote(this, true);
     }
 
     public void displayNotificationWaiting(){
@@ -143,8 +141,7 @@ public class MainActivity extends Activity {
             mCountDownTimer.cancel(); //cancel previous timer
         }
 
-        makeTextBoxVisible();
-        mTextView.setText("Quote is waiting for you in the notification bar!");
+        makeButtonVisible();
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String ret = settings.getString("time_nextAlarm", null);
