@@ -142,7 +142,7 @@ public class MyAlarmManager {
         noti.flags |= Notification.FLAG_NO_CLEAR;
         noti.defaults = Notification.DEFAULT_ALL;
 
-        notificationManager.notify(0, noti);
+        notificationManager.notify(notificationID, noti);
 
         Log.d(LOG_TAG,"Making notification");
     }
