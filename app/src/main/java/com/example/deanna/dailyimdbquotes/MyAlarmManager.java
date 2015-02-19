@@ -133,9 +133,8 @@ public class MyAlarmManager {
         // Build notification
         Notification noti = new NotificationCompat.Builder(context)
                 .setContentTitle("New "+ Utility.getCurrentTitleShortText(context) + " quote!")
-                .setContentText("Click me to see it!").setSmallIcon(R.drawable.ic_launcher)
-                .setContentIntent(pIntent)
-                .addAction(R.drawable.ic_launcher, "View", pIntent).build();
+                .setContentText("Click to view").setSmallIcon(R.drawable.ic_launcher)
+                .setContentIntent(pIntent).build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         // hide the notification after its selected
         noti.flags |= Notification.FLAG_AUTO_CANCEL;
